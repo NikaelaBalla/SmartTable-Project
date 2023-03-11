@@ -2,13 +2,32 @@
 \usepackage{graphicx} % Required for inserting images
 
 \title{Requirements Analysis Report}
-\author{nikaela.balla }
+\author{Nikaela Balla }
+\author{Mishkat Chowdhury}
 \date{March 2023}
 
 \begin{document}
 
 \maketitle
 
-\section{Introduction}
+\section{ Problem to be solved}
+\label{sec:problem}
+The purpose of this project is to make a SmartTable.Why would we need this? 
+Well, imagine you are in a crowded restaurant. You have to wait for the host to bring you to a table that isn't reserved. Once you sit down,
+you will need to grab the waiters attention to order and then to get the bill. This is a lot of work for people with social anxiety or people 
+who are disabled. That is the problem our table is implemented to fix.
+\section{ Introduction}
+The customer enters the restaurant.
+\subsection{Experience Sequence}
+\begin{itemize}
+    \item Table is GREEN by default.
+    \item Client sits on the table, table color changes to RED.
+    \item When a client wants to request the waiter's attention, makes gesture OPEN PALM. Table changes color from to RED to BLUE, (the representation of the timer is the color change, 15 mins mean BLUE).
+    \item Waiter approaches and turns of timer with gesture THUMBS UP, resets table status, table go to RED color.
+    \item Clients requests the bill with gesture FIST, table changes color to YELLOW.
+    \item Client sets the table to not get disturbed with gesture TWO FINGER UP, table changes color to WHITE.
+    \item Waiter sets table to reserved status with gesture TWO FISTS, table changes color to RED.
+\end{itemize}
+
 
 \end{document}

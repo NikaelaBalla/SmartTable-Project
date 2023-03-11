@@ -17,17 +17,29 @@ Well, imagine you are in a crowded restaurant. You have to wait for the host to 
 you will need to grab the waiters attention to order and then to get the bill. This is a lot of work for people with social anxiety or people 
 who are disabled. That is the problem our table is implemented to fix.
 \section{ Introduction}
-The customer enters the restaurant.
-\subsection{Experience Sequence}
-\begin{itemize}
-    \item Table is GREEN by default.
-    \item Client sits on the table, table color changes to RED.
-    \item When a client wants to request the waiter's attention, makes gesture OPEN PALM. Table changes color from to RED to BLUE, (the representation of the timer is the color change, 15 mins mean BLUE).
-    \item Waiter approaches and turns of timer with gesture THUMBS UP, resets table status, table go to RED color.
-    \item Clients requests the bill with gesture FIST, table changes color to YELLOW.
-    \item Client sets the table to not get disturbed with gesture TWO FINGER UP, table changes color to WHITE.
-    \item Waiter sets table to reserved status with gesture TWO FISTS, table changes color to RED.
+The customer enters the restaurant.The table has Led lights on it's side that indicate the different states it has. Our different interfaces 
+options are: \begin{itemize}
+    \item Gesture based interface using a leap motion sensor.
+    \item  Voice control commands using a phone application.
+    \item  Gestures based interface using conventional cameras (opencv).
+    \item A remote with buttons for changing the colors.
 \end{itemize}
-
+\subsection{Experience Sequence }
+\begin{itemize}
+    \item Table is green by default.
+    \item  When the client sits on the table, it's color changes to red.
+    \item When the client wants to request the waiter's attention, they make a gesture, speak to the app or press a button. 
+    Table changes color from  red to blue.
+    \item  There is  a timer which turns darker blue the more the client waits.
+    \item Waiter approaches and turns off timer in a similar way to client, resets table status and it goes back to the color red.
+    \item When the client requests the bill with a gesture, voice or button, table changes color to yellow.
+    \item When the client sets the table to "do not disturb" in the same way as above, table changes color to white.
+    \item Waiter sets table to reserved status similarly as above, the table than changes to red.
+\end{itemize}
+This proccess will be explained in more detail in the requirements section.
+\subsection{User characteristics}
+This project has two intended users: a client in a restaurant and the waiter in said restaurant or other service based establishments.
+The client has difficulties communicating with others, because of social anxiety, disability or other reasons. The waiter is overworked and
+needs the help of the SmartTable to lessen his workload.
 
 \end{document}

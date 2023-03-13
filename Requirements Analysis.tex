@@ -17,19 +17,23 @@
 The purpose of this project is to make a SmartTable.Why would we need this? 
 Well, imagine you are in a crowded restaurant. You have to wait for the host to bring you to a table that isn't reserved. Once you sit down,
 you will need to grab the waiters attention to order and then to get the bill. This is a lot of work for people with social anxiety or people 
-who are disabled. That is the problem our table is implemented to fix.
+who are disabled. That is the problem our table is implemented to fix. 
 \section{ Introduction}
-The customer enters the restaurant.The table has Led lights on it's side that indicate the different states it has. Our different interfaces 
-options are: \begin{itemize}
-    \item Gesture based interface using a leap motion sensor.
+Our intended users are: a client in a restaurant and the waiter in said restaurant or other service based establishments.
+The client has difficulties communicating with others, because of social anxiety, disability or other reasons. The waiter is overworked and
+needs the help of the SmartTable to lessen his workload.
+The different options for our interface implementation: \begin{itemize}
+    \item Gesture based interface using a leap motion sensor \cite{zaicti2015free}.
     \item  Voice control commands using a phone application.
     \item  Gestures based interface using conventional cameras (opencv).
     \item A remote with buttons for changing the colors.
 \end{itemize}
+
 \subsection{Experience Sequence }
+The customer enters the restaurant.The table has Led lights on it's side that indicate the different states it has.
 \begin{itemize}
     \item Table is green by default.
-    \item  When the client sits on the table, it's color changes to red.
+    \item  When the client sits on the table, it's color changes to red.It uses simple pressure sensors to tell when someone is sitting \cite{cheng2013smart}.
     \item When the client wants to request the waiter's attention, they make a gesture, speak to the app or press a button. 
     Table changes color from  red to blue.
     \item  There is  a timer which turns darker blue the more the client waits.
@@ -39,10 +43,6 @@ options are: \begin{itemize}
     \item Waiter sets table to reserved status similarly as above, the table than changes to red.
 \end{itemize}
 This proccess will be explained in more detail in the requirements section.
-\subsection{User characteristics}
-This project has two intended users: a client in a restaurant and the waiter in said restaurant or other service based establishments.
-The client has difficulties communicating with others, because of social anxiety, disability or other reasons. The waiter is overworked and
-needs the help of the SmartTable to lessen his workload.
 \section{Requirements}
 \subsection{Functional requirements}
 \begin{itemize}
@@ -86,5 +86,5 @@ For the user interaction interface:
 \end{itemize}
 For the context aware interface there is just one implementation the use of led lights to represent the status of the current table. The only thing that changes is the position of them between table under glow, table border, ceiling light over the table.
 For the user table recognition there is one implementation of pressure sensor on the sits.
-
+\bibliography{mybib}
 \end{document}

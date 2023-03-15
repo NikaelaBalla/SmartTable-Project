@@ -47,44 +47,48 @@ This proccess will be explained in more detail in the requirements section.
 \subsection{Functional requirements}
 \begin{itemize}
     \item The system should identify when a user is sited on the table.
-    \item The system should provide a hand gesture interface for the user (client, waiter) to input commands.
-    \item The system should show visually the confirmation of a command executed by the user (client, waiter).
+    \item The system should provide an interface for both of user types (client, waiter) to input commands.
+    \item The system should show visually the confirmation of a command executed by both user types (client, waiter).
     \item The system should show visually the current state of the table.
+    \item The system recognizes these commands: occupied table, client wants to order, client doesn’t want to get disturbed, client requests the bill, table reserved.
+    \item For each of the commands the visual confirmation should use a different color.
 \end{itemize}
-\subsection{Data requirements}
 \subsection{Environmental requirements}
 \begin{itemize}
-    \item The system visual indicators should be visible in low lighting conditions.
-    \item The system visual indicators should be visible in high lighting conditions.
-    \item The system interface should be able to work under low light conditions.
-    \item The system interface should be able to work under high lighting conditions.
-    \item The system visual indicators should be visible from a 360.
-    \item The system should be accompanied by a pamphlet that should show in a simple and understandable way how to execute the commands without the need of reinforcement.
-    \item The system should be able to distinguish between commands and actions executed by the users.
+    \item The system visual indicators should be visible in a variety of lighting conditions.
+    \item The system interface should be able to work under different light and sound conditions.
+    \item The system visual indicators should be visible no matter the position of the table.
+    \item The system shouldn’t interfere with the intended use of the table.
+    \item The system should withstand any incident common to restaurant tables.
 \end{itemize}
 \subsection{User characteristics}
 \begin{itemize}
-    \item Client: The expected skill set of the client is novice and that translates to the need for commands executed by them to be simple and intuitive. These gestures should be simple for in the case of recurrent visits clients should not need the use of aid to accomplish their interactions with the system.
-    \item Waiter: The expected skill set of the waiter is expert and that translates to the use of more complex commands that could be executed by them allowing them to be gatekeep from the other user type. At the same time is not so complex that waiters need more than normal amount of time to execute them.
+    \item Client: The expected skill set of the client is novice.
+    \item Waiter: The expected skill set of the waiter is expert.
 \end{itemize}
 \subsection{Usability goals}
 \begin{itemize}
-    \item The gestures used by the client should be simple and easy to master.
-    \item The gestures used by the waiter should have a certain level of complexity, this should avoid replication from the client side. But at the same time be understandable and trainable by the workforce.
+    \item The commands used by the client should be simple and easy to master.
+    \item The commands used by the waiter should have a certain level of complexity, this should avoid replication from the client side. But at the same time be understandable and trainable by the workforce.
 \end{itemize}
 \subsection{User experience goals}
 \begin{itemize}
     \item Using the command interface should be an enjoyable to use.
     \item The system should be responsive in when receiving commands.
 \end{itemize}
-\section{Requirement fulfilment}
-For the user interaction interface:
+\section{Requirement fulfillment}
+The input of the system has three proposals ordered and with a focus in the first one:
 \begin{itemize}
     \item Hand gestures with leap motion sensors.
     \item Voice commands via phone app.
     \item Hand gestures with conventional video camera.
 \end{itemize}
-For the context aware interface there is just one implementation the use of led lights to represent the status of the current table. The only thing that changes is the position of them between table under glow, table border, ceiling light over the table.
+The output of the system there are three proposals with a focus on in the first one:
+\begin{itemize}
+    \item Set of led lights as under glow of the table.
+    \item Set of led lights as a ring surrounding the table.
+    \item Set of led lights as ceiling light over the table.
+\end{itemize}
 For the user table recognition there is one implementation of pressure sensor on the sits.
 \bibliography{mybib}
 \end{document}

@@ -20,13 +20,11 @@
 */
 
 #include <M5Stack.h>
-
 #include <FastLED.h>
 #include <MFRC522_I2C.h>
 #include <Unit_Sonic.h>
 
-
-#define DELAY = 200;
+#define DELAY 200
 
 #define NUM_LEDS 30
 #define DATA_PIN 17
@@ -34,21 +32,20 @@
 
 byte currColor[] = {0, 0, 0};
 byte systemColor[] = { 0, 0, 0};
+CRGB leds[NUM_LEDS];
+MFRC522_I2C mfrc522(0x28, 0);
 
-#define WAIT_SHORT = 3*1000;
-#define WAIT_LONG = 60*1000;
+#define WAIT_SHORT 3*1000
+#define WAIT_LONG 60*1000
 
 long transCount = 0;
 long transTotal = WAIT_SHORT/DELAY;
 
-#define TAG_ID[] = {"e566ed3c", "6868ed3c", "1465ed3c", "a768ed3c", "0167ed3c"};
-#define TAG_COUNT = 5;
+String TAG_ID[] = {"e566ed3c", "6868ed3c", "1465ed3c", "a768ed3c", "0167ed3c"};
 
-#define DIST_THRESHOLD = 800;
+#define TAG_COUNT 5
 
-CRGB leds[NUM_LEDS];
-
-MFRC522_I2C mfrc522(0x28, 0);
+#define DIST_THRESHOLD 800
 
 SONIC_I2C distSensor;
 
@@ -99,15 +96,18 @@ void loop() {
   M5.Lcd.setCursor(0,40);
   M5.Lcd.println(newDistance);
 
-  if (newDistance > DIST_THRESHOLD && systemStatus == 0 && distCount < 10){
-    distCount++;
-  } else if (systemStatus == 0) {
-    distCount = 0;
-  }
+  if (systemStatus == 0) {
+    if (newDistance > DIST_THRESHOLD && distCount < 10) {
+      distCount++;
 
-  if (distCount == 10 && systemStatus == 0){
-    newStatus = 5;
-    distCount = 0;
+    } else if ( distCount == 10) {
+      newStatus = 5;
+      distCount = 0;
+
+    } else {
+      distCount = 0;
+
+    }
   }
 
   if (mfrc522.PICC_IsNewCardPresent() && mfrc522.PICC_ReadCardSerial()) {
@@ -119,8 +119,9 @@ void loop() {
     M5.Lcd.println(systemColor[0]);
   }
 
-  systemStatus = 
-  }||(systemStatus, newStatus);
+  if (systemStatus != newStatus) {
+    systemStatus = updateStatus(systemStatus, newStatus);
+  }
 
   transLEDS();
 
@@ -134,39 +135,28 @@ void loop() {
   @return byte
 */
 byte updateStatus(byte currentStatus, byte newStatus) {
-  if (newStatus != currentStatus) {
-    M5.Lcd.fillRect(0, 140, 320, 20, BLACK);
-    M5.Lcd.setCursor(0,140);
-    M5.Lcd.printf("System status: %i\n", newStatus);
-    
-    transCount = (transCount > transTotal)? transTotal: transCount;
+  M5.Lcd.fillRect(0, 140, 320, 20, BLACK);
+  M5.Lcd.setCursor(0,140);
+  M5.Lcd.printf("System status: %i\n", newStatus);
+  
+  transCount = (transCount > transTotal)? transTotal: transCount;
 
-    byte red = (float) (transCount * abs(currColor[0] - systemColor[0]))/transTotal;
-    byte green = (float) (transCount * abs(currColor[1] - systemColor[1]))/transTotal;
-    byte blue = (float) (transCount * abs(currColor[2] - systemColor[2]))/transTotal;
+  updateLEDS(leds, newStatus);
 
-    currColor[0] = (systemColor[0] > currColor[0])? currColor[0] + red: currColor[0] - red;
-    currColor[1] = (systemColor[1] > currColor[1])? currColor[1] + green: currColor[1] - green;
-    currColor[2] = (systemColor[2] > currColor[2])? currColor[2] + blue: currColor[2] - blue;
+  M5.Lcd.fillRect(0, 220, 320, 20, BLACK);
+  M5.Lcd.setCursor(0,220);
+  M5.Lcd.printf("R: %i G: %i B: %i T: %i\n", currColor[0], currColor[1], currColor[2], transCount);
 
-    M5.Lcd.fillRect(0, 220, 320, 20, BLACK);
-    M5.Lcd.setCursor(0,220);
-    M5.Lcd.printf("R: %i G: %i B: %i T: %i\n", currColor[0], currColor[1], currColor[2], transCount);
+  transCount = 0;
+  transTotal = WAIT_SHORT/DELAY;
 
-    transCount = 0;
-    transTotal = WAIT_SHORT/DELAY;
-
-    if (newStatus == 5) {
-      transTotal = WAIT_LONG/DELAY;
-    }
-
-    updateLEDS(leds, newStatus);
-    M5.Speaker.tone(200, 100);
-    return newStatus;
-
-  } else {
-    return currentStatus;
+  if (newStatus == 5) {
+    transTotal = WAIT_LONG/DELAY;
   }
+
+  M5.Speaker.tone(200, 100);
+
+  return newStatus;
 }
 
 /**
@@ -203,47 +193,45 @@ void transLEDS() {
   @return void
 */
 void updateLEDS(CRGB leds[], byte currentStatus) {
-  // static unsigned long colorLED;
+  byte red = (float) (transCount * abs(currColor[0] - systemColor[0]))/transTotal;
+  byte green = (float) (transCount * abs(currColor[1] - systemColor[1]))/transTotal;
+  byte blue = (float) (transCount * abs(currColor[2] - systemColor[2]))/transTotal;
+
+  currColor[0] = (systemColor[0] > currColor[0])? currColor[0] + red: currColor[0] - red;
+  currColor[1] = (systemColor[1] > currColor[1])? currColor[1] + green: currColor[1] - green;
+  currColor[2] = (systemColor[2] > currColor[2])? currColor[2] + blue: currColor[2] - blue;
 
   if (currentStatus == 0) {
-    // colorLED = CRGB::Green;
     M5.Lcd.fillRect(0, 160, 320, 40, GREEN);
     systemColor[0] = 0;
     systemColor[1] = 255;
     systemColor[2] = 0;
   } else if (currentStatus == 1) {
-    // colorLED = CRGB::Red;
     M5.Lcd.fillRect(0, 160, 320, 40, RED);
     systemColor[0] = 255;
     systemColor[1] = 0;
     systemColor[2] = 0;
   } else if (currentStatus == 2 || currentStatus == 5) {
-    // colorLED = CRGB::Blue;
     M5.Lcd.fillRect(0, 160, 320, 40, BLUE);
     systemColor[0] = 0;
     systemColor[1] = 0;
     systemColor[2] = 255;
   } else if (currentStatus == 3) {
-    // colorLED = CRGB::Yellow;
     M5.Lcd.fillRect(0, 160, 320, 40, YELLOW);
     systemColor[0] = 255;
     systemColor[1] = 255;
     systemColor[2] = 0;
   } else if (currentStatus == 4) {
-    // colorLED = CRGB::White;
     M5.Lcd.fillRect(0, 160, 320, 40, WHITE);
     systemColor[0] = 255;
     systemColor[1] = 255;
     systemColor[2] = 255;
   } else {
-    // colorLED = CRGB::Black;
     M5.Lcd.fillRect(0, 160, 320, 40, BLACK);
     systemColor[0] = 0;
     systemColor[1] = 0;
     systemColor[2] = 0;
   }
-  // fill_solid(leds, NUM_LEDS, colorLED);
-  // FastLED.show();
 }
 
 
